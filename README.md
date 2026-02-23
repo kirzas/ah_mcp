@@ -1,6 +1,7 @@
 ## Appie MCP
 
 MCP server that exposes appie CLI commands as tools. It runs appie via `uv run appie` from the appie project directory (configurable with `APPIE_PROJECT_DIR`, default `D:\git\ah_app`).
+Based on: https://github.com/gwillem/appie-go/blob/main/README.md
 
 ### Tools
 
