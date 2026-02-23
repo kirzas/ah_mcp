@@ -66,5 +66,74 @@ def receipt_show(receipt_id: str) -> str:
     return _run_appie("receipt", "show", receipt_id)
 
 
+@mcp.tool()
+def search(query: str, limit: int = 20) -> str:
+    """
+    Search with appie (same as: appie search -n N query).
+
+    Parameters
+    ----------
+    query : str
+        Search query.
+    limit : int, default 20
+        Max number of results.
+    """
+    query = (query or "").strip()
+    if not query:
+        raise ValueError("query is required.")
+    if limit < 1:
+        raise ValueError("limit must be at least 1.")
+    return _run_appie("search", "-n", str(limit), query)
+
+
+@mcp.tool()
+def order_list() -> str:
+    """
+    List orders (same as: appie order).
+    """
+    return _run_appie("order")
+
+
+@mcp.tool()
+def order_show(order_id: str) -> str:
+    """
+    Show details for a single order by ID (same as: appie order show order-id).
+
+    Parameters
+    ----------
+    order_id : str
+        The order ID.
+    """
+    order_id = (order_id or "").strip()
+    if not order_id:
+        raise ValueError("order_id is required.")
+    return _run_appie("order", "show", order_id)
+
+
+@mcp.tool()
+def order_add(order_id: str, product: str, quantity: int = 1) -> str:
+    """
+    Add a product to an order (same as: appie order add -n N order-id product).
+
+    Parameters
+    ----------
+    order_id : str
+        The order ID.
+    product : str
+        Product to add.
+    quantity : int, default 1
+        Quantity to add.
+    """
+    order_id = (order_id or "").strip()
+    product = (product or "").strip()
+    if not order_id:
+        raise ValueError("order_id is required.")
+    if not product:
+        raise ValueError("product is required.")
+    if quantity < 1:
+        raise ValueError("quantity must be at least 1.")
+    return _run_appie("order", "add", "-n", str(quantity), order_id, product)
+
+
 if __name__ == "__main__":
     mcp.run()
