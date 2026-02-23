@@ -1,24 +1,28 @@
-## LocalUtilsServer MCP
+## Appie MCP
 
-This is a simple MCP server built with `FastMCP` that exposes a few local utilities:
+MCP server that exposes appie CLI commands as tools. It runs appie via `uv run appie` from the appie project directory (configurable with `APPIE_PROJECT_DIR`, default `D:\git\ah_app`).
 
-- `get_info`: returns basic information about the server and Python environment.
-- `list_directory`: lists files and directories within the current working directory (with safety checks).
-- `read_text_file`: reads a text file within the current working directory (with size limits).
-- `add_numbers`: demo tool that adds two integers.
+### Tools
+
+- **receipt_list** — List the last n receipts (`appie receipt -n N`).
+- **receipt_show** — Show details for a single receipt by ID (`appie receipt show <id>`).
+- **search** — Search with appie (`appie search -n N query`).
+- **order_list** — List orders (`appie order`).
+- **order_show** — Show details for a single order by ID (`appie order show <order-id>`).
+- **order_add** — Add a product to an order (`appie order add -n N <order-id> <product>`).
 
 ### Installation
 
-Create and activate a virtual environment (optional, but recommended), then install dependencies:
-
-```bash
-pip install mcp
-```
-
-If you prefer to use a requirements file:
+Create and activate a virtual environment (optional), then install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+Or with uv:
+
+```bash
+uv sync
 ```
 
 ### Running the server
@@ -26,26 +30,27 @@ pip install -r requirements.txt
 From the project directory:
 
 ```bash
-python server.py
+python appie.py
 ```
 
-The server will start and listen for MCP connections on STDIN/STDOUT.
+The server listens for MCP connections on STDIN/STDOUT.
 
 ### Using with Cursor (or another MCP client)
 
-Configure your MCP client to launch this server with a command similar to:
+Configure your MCP client to launch the Appie server, for example:
 
 ```json
 {
   "mcpServers": {
-    "local-utils": {
+    "user-appie": {
       "command": "python",
-      "args": ["server.py"],
+      "args": ["appie.py"],
       "env": {}
     }
   }
 }
 ```
 
-After configuration, the client should discover the `get_info`, `list_directory`, `read_text_file`, and `add_numbers` tools automatically.
+Set `APPIE_PROJECT_DIR` in `env` if your appie project is not at `D:\git\ah_app`.
 
+After configuration, the client will discover the receipt, search, and order tools automatically.
