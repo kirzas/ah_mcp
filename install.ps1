@@ -6,5 +6,9 @@ uv init
 uv venv
 .venv\Scripts\activate
 
+
+python -m ensurepip --upgrade
+
 # Install MCP Python SDK
 uv add mcp
+
